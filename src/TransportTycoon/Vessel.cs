@@ -4,75 +4,52 @@ namespace TransportTycoon
 {
 	public class Vessel
 	{
-		private Cargo _loadedCargo;
-		private Route _currentRoute;
-		private TimeSpan _remainingDistance;
-		private bool _isReturning;
+		private VesselState _state;
 
 		public Vessel(string name, Location initialLocation)
 		{
 			Name = name;
 			CurrentLocation = initialLocation;
+			_state = VesselState.Loading;
 		}
 
-		public void PickupCargo()
+		public void PickupCargo() => _state = _state.PickupCargo(this);
+
+		public bool HasLoadedCargo() => LoadedCargo != null;
+
+		public void GoOnTrip(TimeSpan elapsedTime) => _state = _state.GoOnTrip(this, elapsedTime);
+
+		public void UnloadCargo() => _state = _state.UnloadCargo(this);
+
+		protected internal void LoadCargo()
 		{
-			if (_isReturning)
-				return;
-			if (_loadedCargo != null)
-				return;
-
-			_loadedCargo = CurrentLocation.LoadCargo();
-			if (_loadedCargo == null)
-				return;
-
-			_currentRoute = _loadedCargo.NextRoute();
-			_remainingDistance = _currentRoute.Distance;
+			LoadedCargo = CurrentLocation.LoadCargo();
+			CurrentRoute = LoadedCargo?.NextRoute();
+			RemainingDistance = CurrentRoute?.Distance != null ? CurrentRoute.Distance : TimeSpan.Zero;
 		}
 
-		public void MakeTrip(TimeSpan elapsedTime)
-		{
-			if (_currentRoute == null)
-				return;
+		protected internal void CalculateRemainingDistance(TimeSpan elapsedTripTime) => RemainingDistance -= elapsedTripTime;
 
-			_remainingDistance -= elapsedTime;
-			if (_isReturning)
-				return;
-			if (_remainingDistance <= TimeSpan.Zero)
-			{
-				CurrentLocation = _currentRoute.ToLocation;
-			}
+		protected internal void ArriveAtRouteDestination() => CurrentLocation = CurrentRoute.ToLocation;
+
+		protected internal void DropCargoAtRouteDestination()
+		{
+			CurrentLocation.UnloadCargo(LoadedCargo);
+			LoadedCargo = null;
+			RemainingDistance = CurrentRoute.Distance;
 		}
 
-		public void UnloadCargo()
+		protected internal void ArriveAtRouteOrigin()
 		{
-			if (_currentRoute == null)
-				return;
-			if (CurrentLocation != _currentRoute.ToLocation)
-				return;
-
-			if (_loadedCargo != null)
-			{
-				CurrentLocation.UnloadCargo(_loadedCargo);
-				_loadedCargo = null;
-				_remainingDistance = _currentRoute.Distance;
-			}
-			Return();
+			CurrentLocation = CurrentRoute.FromLocation;
+			CurrentRoute = null;
+			RemainingDistance = TimeSpan.Zero;
 		}
 
 		public string Name { get; private set; }
 		public Location CurrentLocation { get; private set; }
-
-		private void Return()
-		{
-			_isReturning = true;
-			if (_remainingDistance <= TimeSpan.Zero)
-			{
-				CurrentLocation = _currentRoute.FromLocation;
-				_currentRoute = null;
-				_isReturning = false;
-				_remainingDistance = TimeSpan.Zero;
-			}
-		}
+		public Cargo LoadedCargo { get; private set; }
+		public Route CurrentRoute { get; private set; }
+		public TimeSpan RemainingDistance { get; private set; }
 	}
 }

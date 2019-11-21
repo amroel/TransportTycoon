@@ -6,7 +6,7 @@ namespace TransportTycoon
 {
 	public class Transportation
 	{
-		private readonly IEnumerable<Vessel> _vessels = new List<Vessel>
+		private readonly List<Vessel> _vessels = new List<Vessel>
 		{
 			new Vessel("Truck 1", Location.Factory),
 			new Vessel("Truck 2", Location.Factory),
@@ -44,29 +44,11 @@ namespace TransportTycoon
 			}
 		}
 
-		private void Load()
-		{
-			foreach (var vessel in _vessels)
-			{
-				vessel.PickupCargo();
-			}
-		}
+		private void Load() => _vessels.ForEach(vessel => vessel.PickupCargo());
 
-		private void Deliver(TimeSpan passedTime)
-		{
-			foreach (var vessel in _vessels)
-			{
-				vessel.MakeTrip(passedTime);
-			}
-		}
+		private void Deliver(TimeSpan passedTime) => _vessels.ForEach(vessel => vessel.GoOnTrip(passedTime));
 
-		private void Unload()
-		{
-			foreach (var vessel in _vessels)
-			{
-				vessel.UnloadCargo();
-			}
-		}
+		private void Unload() => _vessels.ForEach(vessel => vessel.UnloadCargo());
 
 		private IEnumerable<Cargo> MakeCargoes(IEnumerable<string> destinations)
 		{
