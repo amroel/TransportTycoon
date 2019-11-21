@@ -2,15 +2,16 @@
 
 namespace TransportTycoon
 {
-	public class Vessel
+	public class Transport
 	{
-		private VesselState _state;
+		private TransportState _state;
 
-		public Vessel(string name, Location initialLocation)
+		public Transport(long id, string vessel, Location initialLocation)
 		{
-			Name = name;
+			Id = id;
+			Vessel = vessel;
 			CurrentLocation = initialLocation;
-			_state = VesselState.Loading;
+			_state = TransportState.Loading;
 		}
 
 		public void PickupCargo() => _state = _state.PickupCargo(this);
@@ -27,6 +28,8 @@ namespace TransportTycoon
 			CurrentRoute = LoadedCargo?.NextRoute();
 			RemainingDistance = CurrentRoute?.Distance != null ? CurrentRoute.Distance : TimeSpan.Zero;
 		}
+
+		protected internal void Depart() => CurrentLocation = null;
 
 		protected internal void CalculateRemainingDistance(TimeSpan elapsedTripTime) => RemainingDistance -= elapsedTripTime;
 
@@ -46,7 +49,8 @@ namespace TransportTycoon
 			RemainingDistance = TimeSpan.Zero;
 		}
 
-		public string Name { get; private set; }
+		public long Id { get; private set; }
+		public string Vessel { get; private set; }
 		public Location CurrentLocation { get; private set; }
 		public Cargo LoadedCargo { get; private set; }
 		public Route CurrentRoute { get; private set; }

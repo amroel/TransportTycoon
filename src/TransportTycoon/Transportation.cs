@@ -6,11 +6,11 @@ namespace TransportTycoon
 {
 	public class Transportation
 	{
-		private readonly List<Vessel> _vessels = new List<Vessel>
+		private readonly List<Transport> _transports = new List<Transport>
 		{
-			new Vessel("Truck 1", Location.Factory),
-			new Vessel("Truck 2", Location.Factory),
-			new Vessel("Ship", Location.Port)
+			new Transport(0, "Truck 1", Location.Factory),
+			new Transport(1, "Truck 2", Location.Factory),
+			new Transport(2, "Ship", Location.Port)
 		};
 		// routes to destination: Key = Final Destination
 		private readonly IDictionary<Location, Route[]> _routsMap = new Dictionary<Location, Route[]>
@@ -44,11 +44,11 @@ namespace TransportTycoon
 			}
 		}
 
-		private void Load() => _vessels.ForEach(vessel => vessel.PickupCargo());
+		private void Load() => _transports.ForEach(vessel => vessel.PickupCargo());
 
-		private void Deliver(TimeSpan passedTime) => _vessels.ForEach(vessel => vessel.GoOnTrip(passedTime));
+		private void Deliver(TimeSpan passedTime) => _transports.ForEach(vessel => vessel.GoOnTrip(passedTime));
 
-		private void Unload() => _vessels.ForEach(vessel => vessel.UnloadCargo());
+		private void Unload() => _transports.ForEach(vessel => vessel.UnloadCargo());
 
 		private IEnumerable<Cargo> MakeCargoes(IEnumerable<string> destinations)
 		{
