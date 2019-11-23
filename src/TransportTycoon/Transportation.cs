@@ -8,9 +8,9 @@ namespace TransportTycoon
 	{
 		private readonly List<Transport> _transports = new List<Transport>
 		{
-			new Transport(0, "Truck 1", Location.Factory),
-			new Transport(1, "Truck 2", Location.Factory),
-			new Transport(2, "Ship", Location.Port)
+			new Transport(0, new CargoCarrier("Truck 1", "Truck"), Location.Factory),
+			new Transport(1, new CargoCarrier("Truck 2", "Truck"), Location.Factory),
+			new Transport(2, new CargoCarrier("Ship", "Ship"), Location.Port)
 		};
 		// routes to destination: Key = Final Destination
 		private readonly IDictionary<Location, Route[]> _routsMap = new Dictionary<Location, Route[]>
