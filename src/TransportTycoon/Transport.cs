@@ -41,6 +41,16 @@ namespace TransportTycoon
 			_currentLocation = null;
 			_currentRoute = _loadedCargos.First().NextRoute();
 			RemainingDistance = _currentRoute.Distance;
+			Events.Add(new TransportEvent
+			{
+				Event = "DEPART",
+				Time = 0,
+				TransportId = Id,
+				Kind = _carrier.Kind,
+				Locatoion = _currentRoute.FromLocation,
+				Destination = _currentRoute.ToLocation,
+				Cargoes = _loadedCargos.ToArray()
+			});
 		}
 
 		protected internal void CalculateRemainingDistance(TimeSpan elapsedTripTime) => RemainingDistance -= elapsedTripTime;
@@ -63,5 +73,6 @@ namespace TransportTycoon
 
 		public long Id { get; private set; }
 		public TimeSpan RemainingDistance { get; private set; }
+		public List<TransportEvent> Events { get; } = new List<TransportEvent>();
 	}
 }
