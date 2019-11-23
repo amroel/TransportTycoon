@@ -1,8 +1,8 @@
 ﻿namespace TransportTycoon
 {
-	public class CargoCarrier
+	public class Vessel
 	{
-		public CargoCarrier(string name, string kind)
+		public Vessel(string name, string kind)
 		{
 			Kind = kind;
 			Name = name;

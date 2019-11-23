@@ -6,8 +6,9 @@ namespace TransportTycoon
 	{
 		private readonly Route[] _travelRoutes;
 
-		public Cargo(Location currentLocation, params Route[] possibleRoutes)
+		public Cargo(long id, Location currentLocation, params Route[] possibleRoutes)
 		{
+			Id = id;
 			CurrentLocation = currentLocation;
 			CurrentLocation.UnloadCargo(this);
 			_travelRoutes = possibleRoutes;
@@ -19,6 +20,9 @@ namespace TransportTycoon
 
 		public bool IsAtDestination() => CurrentLocation == _travelRoutes.Last().ToLocation;
 
+		public long Id { get; }
+		public Location Origin => _travelRoutes.First().FromLocation;
+		public Location Destination => _travelRoutes.Last().ToLocation;
 		public Location CurrentLocation { get; private set; }
 	}
 }

@@ -8,9 +8,9 @@ namespace TransportTycoon
 	{
 		private readonly List<Transport> _transports = new List<Transport>
 		{
-			new Transport(0, new CargoCarrier("Truck 1", "Truck"), Location.Factory),
-			new Transport(1, new CargoCarrier("Truck 2", "Truck"), Location.Factory),
-			new Transport(2, new CargoCarrier("Ship", "Ship"), Location.Port)
+			new Transport(0, new Vessel("Truck 1", "Truck"), Location.Factory),
+			new Transport(1, new Vessel("Truck 2", "Truck"), Location.Factory),
+			new Transport(2, new Vessel("Ship", "Ship"), Location.Port)
 		};
 		// routes to destination: Key = Final Destination
 		private readonly IDictionary<Location, Route[]> _routsMap = new Dictionary<Location, Route[]>
@@ -28,11 +28,15 @@ namespace TransportTycoon
 			}
 		};
 		private IEnumerable<Cargo> _cargoes;
+		private List<TransportEvent> _events = new List<TransportEvent>();
 
 		public TimeSpan ElapsedTime { get; private set; } = TimeSpan.Zero;
 
+		public IEnumerable<TransportEvent> Events => _events.AsReadOnly();
+
 		public void Start(string destinations)
 		{
+			_events.Clear();
 			_cargoes = MakeCargoes(destinations.Select(c => c.ToString()));
 			var timePassed = TimeSpan.FromHours(1);
 			while (StillDelivering())
@@ -44,11 +48,21 @@ namespace TransportTycoon
 			}
 		}
 
-		private void Load() => _transports.ForEach(vessel => vessel.PickupCargo());
+		private void Load() => ForAllTransportsDo(t => t.PickupCargo());
 
-		private void Deliver(TimeSpan passedTime) => _transports.ForEach(vessel => vessel.GoOnTrip(passedTime));
+		private void Deliver(TimeSpan passedTime) => ForAllTransportsDo(t => t.GoOnTrip(passedTime));
 
-		private void Unload() => _transports.ForEach(vessel => vessel.UnloadCargo());
+		private void Unload() => ForAllTransportsDo(t => t.UnloadCargo());
+
+		private void ForAllTransportsDo(Action<Transport> action) => _transports.ForEach(transport =>
+		{
+			action(transport);
+			foreach (var evt in transport.Events)
+			{
+				_events.Add(evt);
+			}
+			transport.ClearEvents();
+		});
 
 		private IEnumerable<Cargo> MakeCargoes(IEnumerable<string> destinations)
 		{
@@ -56,7 +70,7 @@ namespace TransportTycoon
 			foreach (var destination in destinations)
 			{
 				var destinationLocation = Location.FromString(destination);
-				result.Add(new Cargo(Location.Factory, _routsMap[destinationLocation]));
+				result.Add(new Cargo(result.Count, Location.Factory, _routsMap[destinationLocation]));
 			}
 			return result;
 		}

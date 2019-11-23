@@ -28,7 +28,7 @@ namespace TransportTycoon
 				transport.LoadCargo();
 				if (transport.HasLoadedCargo())
 				{
-					transport.Depart();
+					transport.DepartToDestination();
 					return OnTheRoad;
 				}
 				return this;
@@ -74,6 +74,7 @@ namespace TransportTycoon
 			public override TransportState UnloadCargo(Transport transport)
 			{
 				transport.DropCargoAtRouteDestination();
+				transport.ReturnToOrigin();
 				return Returning;
 			}
 		}
