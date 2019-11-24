@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace TransportTycoon.Infrastructure
@@ -8,19 +7,11 @@ namespace TransportTycoon.Infrastructure
 	{
 		public static string ToJson(this TransportEvent transportEvent)
 		{
-			var contractResolver = new DefaultContractResolver
-			{
-				NamingStrategy = new SnakeCaseNamingStrategy()
-			};
+			var naming = new SnakeCaseNamingStrategy();
+			var resolver = new DefaultContractResolver { NamingStrategy = naming };
+			var settings = new JsonSerializerSettings {  ContractResolver = resolver };
 
-			var jsonSerializationSettings = new JsonSerializerSettings
-			{
-				Converters = new JsonConverter[] { new StringEnumConverter() },
-				ContractResolver = contractResolver,
-				NullValueHandling = NullValueHandling.Ignore
-			};
-
-			return JsonConvert.SerializeObject(transportEvent, jsonSerializationSettings);
+			return JsonConvert.SerializeObject(transportEvent, settings);
 		}
 	}
 }
