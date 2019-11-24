@@ -9,7 +9,11 @@ namespace TransportTycoon.Infrastructure
 		{
 			var naming = new SnakeCaseNamingStrategy();
 			var resolver = new DefaultContractResolver { NamingStrategy = naming };
-			var settings = new JsonSerializerSettings {  ContractResolver = resolver };
+			var settings = new JsonSerializerSettings 
+			{  
+				ContractResolver = resolver, 
+				NullValueHandling = NullValueHandling.Ignore 
+			};
 
 			return JsonConvert.SerializeObject(transportEvent, settings);
 		}

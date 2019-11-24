@@ -17,11 +17,10 @@ namespace TransportTycoon.Tests
 				TransportId = 0,
 				Kind = "Truck",
 				Location = "Factory",
-				Destination = "Port",
-				Cargoes = new CargoTravelInfo[] { }
+				Destination = "Port"
 			};
 
-			var expected = "{\"event\":\"DEPART\",\"time\":0,\"transport_id\":0,\"kind\":\"Truck\",\"location\":\"Factory\",\"destination\":\"Port\",\"cargoes\":[]}";
+			var expected = "{\"event\":\"DEPART\",\"time\":0,\"transport_id\":0,\"kind\":\"Truck\",\"location\":\"Factory\",\"destination\":\"Port\"}";
 			var actual = evt.ToJson();
 
 			actual.Should().Be(expected);
@@ -40,10 +39,10 @@ namespace TransportTycoon.Tests
 				Kind = "Truck",
 				Location = "Factory",
 				Destination = "Port",
-				Cargoes = new CargoTravelInfo[] { CargoTravelInfo.FromCargo(cargo) }
+				Cargo = new CargoTravelInfo[] { CargoTravelInfo.FromCargo(cargo) }
 			};
 
-			var expected = "{\"event\":\"DEPART\",\"time\":0,\"transport_id\":0,\"kind\":\"Truck\",\"location\":\"Factory\",\"destination\":\"Port\",\"cargoes\":[{\"cargo_id\":0,\"origin\":\"Factory\",\"destination\":\"Warehouse A\"}]}";
+			var expected = "{\"event\":\"DEPART\",\"time\":0,\"transport_id\":0,\"kind\":\"Truck\",\"location\":\"Factory\",\"destination\":\"Port\",\"cargo\":[{\"cargo_id\":0,\"origin\":\"Factory\",\"destination\":\"Warehouse A\"}]}";
 			var actual = evt.ToJson();
 
 			actual.Should().Be(expected);

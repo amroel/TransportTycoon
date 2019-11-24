@@ -7,7 +7,7 @@ namespace TransportTycoon
 		protected TransportState(string description) => Description = description;
 
 		public abstract TransportState PickupCargo(Transport transport);
-		public abstract TransportState GoOnTrip(Transport transport, TimeSpan elapsedTripTime);
+		public abstract TransportState GoOnTrip(Transport transport);
 		public abstract TransportState UnloadCargo(Transport transport);
 
 		public string Description { get; private set; }
@@ -34,7 +34,7 @@ namespace TransportTycoon
 				return this;
 			}
 
-			public override TransportState GoOnTrip(Transport transport, TimeSpan elapsedTripTime) => this;
+			public override TransportState GoOnTrip(Transport transport) => this;
 
 			public override TransportState UnloadCargo(Transport transport) => this;
 		}
@@ -47,10 +47,9 @@ namespace TransportTycoon
 
 			public override TransportState PickupCargo(Transport transport) => this;
 
-			public override TransportState GoOnTrip(Transport transport, TimeSpan elapsedTripTime)
+			public override TransportState GoOnTrip(Transport transport)
 			{
-				transport.CalculateRemainingDistance(elapsedTripTime);
-				if (transport.RemainingDistance <= TimeSpan.Zero)
+				if (transport.IsAtDestination())
 				{
 					transport.ArriveAtRouteDestination();
 					return Unloading;
@@ -69,7 +68,7 @@ namespace TransportTycoon
 
 			public override TransportState PickupCargo(Transport transport) => this;
 
-			public override TransportState GoOnTrip(Transport transport, TimeSpan elapsedTripTime) => this;
+			public override TransportState GoOnTrip(Transport transport) => this;
 
 			public override TransportState UnloadCargo(Transport transport)
 			{
@@ -87,10 +86,9 @@ namespace TransportTycoon
 
 			public override TransportState PickupCargo(Transport transport) => this;
 
-			public override TransportState GoOnTrip(Transport transport, TimeSpan elapsedTripTime)
+			public override TransportState GoOnTrip(Transport transport)
 			{
-				transport.CalculateRemainingDistance(elapsedTripTime);
-				if (transport.RemainingDistance <= TimeSpan.Zero)
+				if (transport.IsAtDestination())
 				{
 					transport.ArriveAtRouteOrigin();
 					return Loading;

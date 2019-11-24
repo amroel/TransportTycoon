@@ -1,0 +1,194 @@
+{
+ "displayTimeUnit": "ms",
+ "traceEvents": [
+  {
+   "ts": 0,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_0"
+    ],
+    "transport": "Truck:0"
+   },
+   "ph": "B",
+   "name": "Factory-Port"
+  },
+  {
+   "ts": 0,
+   "pid": "Truck:1",
+   "tid": "Truck:1",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_1"
+    ],
+    "transport": "Truck:1"
+   },
+   "ph": "B",
+   "name": "Factory-Port"
+  },
+  {
+   "ts": 1,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_0"
+    ],
+    "transport": "Truck:0"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 1,
+   "pid": "Truck:1",
+   "tid": "Truck:1",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_1"
+    ],
+    "transport": "Truck:1"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 1,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:0"
+   },
+   "ph": "B",
+   "name": "Port-Factory"
+  },
+  {
+   "ts": 1,
+   "pid": "Truck:1",
+   "tid": "Truck:1",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:1"
+   },
+   "ph": "B",
+   "name": "Port-Factory"
+  },
+  {
+   "ts": 0,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_0"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "B",
+   "name": "Port-Warehouse A"
+  },
+  {
+   "ts": 2,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:0"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 2,
+   "pid": "Truck:1",
+   "tid": "Truck:1",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:1"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 4,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_0"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 4,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Ship:2"
+   },
+   "ph": "B",
+   "name": "Warehouse A-Port"
+  },
+  {
+   "ts": 8,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Ship:2"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 0,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_1"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "B",
+   "name": "Port-Warehouse A"
+  },
+  {
+   "ts": 4,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse A_1"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 4,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Ship:2"
+   },
+   "ph": "B",
+   "name": "Warehouse A-Port"
+  }
+ ]
+}

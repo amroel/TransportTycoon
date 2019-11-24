@@ -8,6 +8,6 @@
 		public string Kind { get; set; }
 		public string Location { get; set; }
 		public string Destination { get; set; }
-		public CargoTravelInfo[] Cargoes { get; set; }
+		public CargoTravelInfo[] Cargo { get; set; }
 	}
 }

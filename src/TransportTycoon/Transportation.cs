@@ -28,7 +28,7 @@ namespace TransportTycoon
 			}
 		};
 		private IEnumerable<Cargo> _cargoes;
-		private List<TransportEvent> _events = new List<TransportEvent>();
+		private readonly List<TransportEvent> _events = new List<TransportEvent>();
 
 		public TimeSpan ElapsedTime { get; private set; } = TimeSpan.Zero;
 
@@ -38,19 +38,21 @@ namespace TransportTycoon
 		{
 			_events.Clear();
 			_cargoes = MakeCargoes(destinations.Select(c => c.ToString()));
-			var timePassed = TimeSpan.FromHours(1);
+			var clock = new Clock(TimeSpan.FromHours(1));
+			ForAllTransportsDo(t => t.Initialize(clock));
 			while (StillDelivering())
 			{
-				ElapsedTime += timePassed;
 				Load();
-				Deliver(timePassed);
+				Deliver();
 				Unload();
+				clock.Tick();
+				ElapsedTime = clock.RunningTime;
 			}
 		}
 
 		private void Load() => ForAllTransportsDo(t => t.PickupCargo());
 
-		private void Deliver(TimeSpan passedTime) => ForAllTransportsDo(t => t.GoOnTrip(passedTime));
+		private void Deliver() => ForAllTransportsDo(t => t.GoOnTrip());
 
 		private void Unload() => ForAllTransportsDo(t => t.UnloadCargo());
 
