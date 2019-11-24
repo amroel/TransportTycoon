@@ -1,0 +1,44 @@
+{
+ "displayTimeUnit": "ms",
+ "traceEvents": [
+  {
+   "ts": 0,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse B_0"
+    ],
+    "transport": "Truck:0"
+   },
+   "ph": "B",
+   "name": "Factory-Warehouse B"
+  },
+  {
+   "ts": 5,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_Warehouse B_0"
+    ],
+    "transport": "Truck:0"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 5,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:0"
+   },
+   "ph": "B",
+   "name": "Warehouse B-Factory"
+  }
+ ]
+}

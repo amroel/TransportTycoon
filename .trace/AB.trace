@@ -55,7 +55,7 @@
    "name": "Port-Factory"
   },
   {
-   "ts": 0,
+   "ts": 1,
    "pid": "Ship:2",
    "tid": "Ship:2",
    "cat": "ddd",
@@ -93,7 +93,19 @@
    "ph": "E"
   },
   {
-   "ts": 4,
+   "ts": 5,
+   "pid": "Truck:1",
+   "tid": "Truck:1",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:1"
+   },
+   "ph": "B",
+   "name": "Warehouse B-Factory"
+  },
+  {
+   "ts": 5,
    "pid": "Ship:2",
    "tid": "Ship:2",
    "cat": "ddd",
@@ -107,18 +119,6 @@
   },
   {
    "ts": 5,
-   "pid": "Truck:1",
-   "tid": "Truck:1",
-   "cat": "ddd",
-   "args": {
-    "cargo": [],
-    "transport": "Truck:1"
-   },
-   "ph": "B",
-   "name": "Warehouse B-Factory"
-  },
-  {
-   "ts": 4,
    "pid": "Ship:2",
    "tid": "Ship:2",
    "cat": "ddd",

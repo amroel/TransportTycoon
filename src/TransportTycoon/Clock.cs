@@ -6,9 +6,9 @@ namespace TransportTycoon
 	{
 		public Clock(TimeSpan tickInterval) => TickInterval = tickInterval;
 
-		public void Tick() => RunningTime += TickInterval;
+		public void Tick() => ElapsedTime += TickInterval;
 
 		public TimeSpan TickInterval { get; }
-		public TimeSpan RunningTime { get; private set; }
+		public TimeSpan ElapsedTime { get; private set; }
 	}
 }

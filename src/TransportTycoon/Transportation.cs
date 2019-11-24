@@ -6,12 +6,6 @@ namespace TransportTycoon
 {
 	public class Transportation
 	{
-		private readonly List<Transport> _transports = new List<Transport>
-		{
-			new Transport(0, new Vessel("Truck 1", "Truck"), Location.Factory),
-			new Transport(1, new Vessel("Truck 2", "Truck"), Location.Factory),
-			new Transport(2, new Vessel("Ship", "Ship"), Location.Port)
-		};
 		// routes to destination: Key = Final Destination
 		private readonly IDictionary<Location, Route[]> _routsMap = new Dictionary<Location, Route[]>
 		{
@@ -27,10 +21,21 @@ namespace TransportTycoon
 				}
 			}
 		};
+
+		private readonly List<Transport> _transports = new List<Transport>();
+		private readonly Clock _clock;
 		private IEnumerable<Cargo> _cargoes;
 		private readonly List<TransportEvent> _events = new List<TransportEvent>();
 
-		public TimeSpan ElapsedTime { get; private set; } = TimeSpan.Zero;
+		public Transportation()
+		{
+			_clock = new Clock(TimeSpan.FromHours(1));
+			_transports.Add(new Transport(0, new Vessel("Truck 1", "Truck"), Location.Factory, _clock));
+			_transports.Add(new Transport(1, new Vessel("Truck 2", "Truck"), Location.Factory, _clock));
+			_transports.Add(new Transport(0, new Vessel("Ship", "Ship"), Location.Port, _clock));
+		}
+
+		public TimeSpan ElapsedTime => _clock.ElapsedTime;
 
 		public IEnumerable<TransportEvent> Events => _events.AsReadOnly();
 
@@ -38,23 +43,15 @@ namespace TransportTycoon
 		{
 			_events.Clear();
 			_cargoes = MakeCargoes(destinations.Select(c => c.ToString()));
-			var clock = new Clock(TimeSpan.FromHours(1));
-			ForAllTransportsDo(t => t.Initialize(clock));
-			while (StillDelivering())
+
+			while (true)
 			{
-				Load();
-				Deliver();
-				Unload();
-				clock.Tick();
-				ElapsedTime = clock.RunningTime;
+				ForAllTransportsDo(t => t.Process());
+				if (!StillDelivering())
+					break;
+				_clock.Tick();
 			}
 		}
-
-		private void Load() => ForAllTransportsDo(t => t.PickupCargo());
-
-		private void Deliver() => ForAllTransportsDo(t => t.GoOnTrip());
-
-		private void Unload() => ForAllTransportsDo(t => t.UnloadCargo());
 
 		private void ForAllTransportsDo(Action<Transport> action) => _transports.ForEach(transport =>
 		{

@@ -6,31 +6,27 @@ namespace TransportTycoon
 {
 	public class Transport
 	{
-		private Vessel _vessel;
+		private readonly Vessel _vessel;
 		private Location _currentLocation;
-		private List<Cargo> _loadedCargoes = new List<Cargo>();
+		private readonly Clock _clock;
+		private readonly List<Cargo> _loadedCargoes = new List<Cargo>();
+
 		private TransportState _state = TransportState.Loading;
 		private Route _currentRoute;
 		private TimeSpan _eta;
 		private readonly List<TransportEvent> _events = new List<TransportEvent>();
-		private Clock _clock;
 
-		public Transport(long id, Vessel vessel, Location initialLocation)
+		public Transport(long id, Vessel vessel, Location initialLocation, Clock clock)
 		{
 			Id = id;
 			_vessel = vessel;
 			_currentLocation = initialLocation;
+			_clock = clock;
 		}
 
-		public void Initialize(Clock clock) => _clock = clock;
-
-		public void PickupCargo() => _state = _state.PickupCargo(this);
+		public void Process() => _state = _state.Process(this);
 
 		public bool HasLoadedCargo() => _loadedCargoes.Any();
-
-		public void GoOnTrip() => _state = _state.GoOnTrip(this);
-
-		public void UnloadCargo() => _state = _state.UnloadCargo(this);
 
 		public void ClearEvents() => _events.Clear();
 
@@ -47,11 +43,11 @@ namespace TransportTycoon
 		{
 			_currentLocation = null;
 			_currentRoute = _loadedCargoes.First().NextRoute();
-			_eta = _clock.RunningTime + _currentRoute.Distance;
+			_eta = _clock.ElapsedTime + _currentRoute.Distance;
 			_events.Add(new TransportEvent
 			{
 				Event = "DEPART",
-				Time = _clock.RunningTime.Hours,
+				Time = _clock.ElapsedTime.Hours,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.FromLocation?.Name,
@@ -62,7 +58,7 @@ namespace TransportTycoon
 			});
 		}
 
-		public bool IsAtDestination() => _eta == _clock.RunningTime;
+		public bool IsAtDestination() => _eta == _clock.ElapsedTime;
 
 		protected internal void ArriveAtRouteDestination()
 		{
@@ -71,7 +67,7 @@ namespace TransportTycoon
 			_events.Add(new TransportEvent
 			{
 				Event = "ARRIVE",
-				Time = _clock.RunningTime.Hours,
+				Time = _clock.ElapsedTime.Hours,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.FromLocation?.Name,
@@ -91,11 +87,11 @@ namespace TransportTycoon
 		protected internal void ReturnToOrigin()
 		{
 			_currentLocation = null;
-			_eta = _clock.RunningTime + _currentRoute.Distance;
+			_eta = _clock.ElapsedTime + _currentRoute.Distance;
 			_events.Add(new TransportEvent
 			{
 				Event = "DEPART",
-				Time = _clock.RunningTime.Hours,
+				Time = _clock.ElapsedTime.Hours,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.ToLocation?.Name,
@@ -111,7 +107,7 @@ namespace TransportTycoon
 			_events.Add(new TransportEvent
 			{
 				Event = "ARRIVE",
-				Time = _clock.RunningTime.Hours,
+				Time = _clock.ElapsedTime.Hours,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.ToLocation?.Name,

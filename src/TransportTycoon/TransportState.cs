@@ -1,20 +1,15 @@
-﻿using System;
-
-namespace TransportTycoon
+﻿namespace TransportTycoon
 {
 	public abstract class TransportState
 	{
 		protected TransportState(string description) => Description = description;
 
-		public abstract TransportState PickupCargo(Transport transport);
-		public abstract TransportState GoOnTrip(Transport transport);
-		public abstract TransportState UnloadCargo(Transport transport);
+		public abstract TransportState Process(Transport transport);
 
 		public string Description { get; private set; }
 
 		public static readonly TransportState Loading = new VesselStateLoading();
 		public static readonly TransportState OnTheRoad = new VesselStateOnTheRoad();
-		public static readonly TransportState Unloading = new VesselStateUnloading();
 		public static readonly TransportState Returning = new VesselStateReturning();
 
 		private class VesselStateLoading : TransportState
@@ -23,7 +18,7 @@ namespace TransportTycoon
 			{
 			}
 
-			public override TransportState PickupCargo(Transport transport)
+			public override TransportState Process(Transport transport)
 			{
 				transport.LoadCargo();
 				if (transport.HasLoadedCargo())
@@ -33,10 +28,6 @@ namespace TransportTycoon
 				}
 				return this;
 			}
-
-			public override TransportState GoOnTrip(Transport transport) => this;
-
-			public override TransportState UnloadCargo(Transport transport) => this;
 		}
 
 		private class VesselStateOnTheRoad : TransportState
@@ -45,36 +36,16 @@ namespace TransportTycoon
 			{
 			}
 
-			public override TransportState PickupCargo(Transport transport) => this;
-
-			public override TransportState GoOnTrip(Transport transport)
+			public override TransportState Process(Transport transport)
 			{
 				if (transport.IsAtDestination())
 				{
 					transport.ArriveAtRouteDestination();
-					return Unloading;
+					transport.DropCargoAtRouteDestination();
+					transport.ReturnToOrigin();
+					return Returning;
 				}
 				return this;
-			}
-
-			public override TransportState UnloadCargo(Transport transport) => this;
-		}
-
-		private class VesselStateUnloading : TransportState
-		{
-			public VesselStateUnloading() : base("Arrived at Destination")
-			{
-			}
-
-			public override TransportState PickupCargo(Transport transport) => this;
-
-			public override TransportState GoOnTrip(Transport transport) => this;
-
-			public override TransportState UnloadCargo(Transport transport)
-			{
-				transport.DropCargoAtRouteDestination();
-				transport.ReturnToOrigin();
-				return Returning;
 			}
 		}
 
@@ -84,19 +55,16 @@ namespace TransportTycoon
 			{
 			}
 
-			public override TransportState PickupCargo(Transport transport) => this;
-
-			public override TransportState GoOnTrip(Transport transport)
+			public override TransportState Process(Transport transport)
 			{
 				if (transport.IsAtDestination())
 				{
 					transport.ArriveAtRouteOrigin();
-					return Loading;
+					
+					return Loading.Process(transport);
 				}
 				return this;
 			}
-
-			public override TransportState UnloadCargo(Transport transport) => this;
 		}
 	}
 }
