@@ -29,7 +29,10 @@ namespace TransportTycoon.Tests
 		[Fact]
 		private void ToJson_WithOneCargo()
 		{
-			var cargo = new Cargo(0, Location.Factory, new Route(Location.Factory, Location.Port, 1), new Route(Location.Port, Location.WarehouseA, 4));
+			var factory = new Location("Factory");
+			var port = new Location("Port");
+			var warehouse = new Location("A");
+			var cargo = new Cargo(0, factory, new Route(factory, port, 1), new Route(port, warehouse, 4));
 			var evt = new TransportEvent
 			{
 				Event = "DEPART",
@@ -41,7 +44,7 @@ namespace TransportTycoon.Tests
 				Cargo = new CargoTravelInfo[] { CargoTravelInfo.FromCargo(cargo) }
 			};
 
-			var expected = "{\"event\":\"DEPART\",\"time\":0,\"transport_id\":0,\"kind\":\"Truck\",\"location\":\"Factory\",\"destination\":\"Port\",\"cargo\":[{\"cargo_id\":0,\"origin\":\"Factory\",\"destination\":\"Warehouse A\"}]}";
+			var expected = "{\"event\":\"DEPART\",\"time\":0,\"transport_id\":0,\"kind\":\"Truck\",\"location\":\"Factory\",\"destination\":\"Port\",\"cargo\":[{\"cargo_id\":0,\"origin\":\"Factory\",\"destination\":\"A\"}]}";
 			var actual = evt.ToJson();
 
 			actual.Should().Be(expected);

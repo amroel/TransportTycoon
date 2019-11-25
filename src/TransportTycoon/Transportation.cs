@@ -6,21 +6,16 @@ namespace TransportTycoon
 {
 	public class Transportation
 	{
-		// routes to destination: Key = Final Destination
-		private readonly IDictionary<Location, Route[]> _routsMap = new Dictionary<Location, Route[]>
+		private readonly IDictionary<string, Location> _locations = new Dictionary<string, Location>
 		{
-			{ Location.WarehouseA, new Route[]
-				{
-					new Route(Location.Factory, Location.Port, 1),
-					new Route(Location.Port, Location.WarehouseA, 4)
-				}
-			},
-			{ Location.WarehouseB, new Route[]
-				{
-					new Route(Location.Factory, Location.WarehouseB, 5)
-				}
-			}
+			{ "Factory", new Location("Factory") },
+			{ "A", new Location("A") },
+			{ "B", new Location("B") },
+			{ "Port", new Location("Port") }
 		};
+
+		// routes to destination: Key = Final Destination
+		private readonly IDictionary<Location, Route[]> _routsMap = new Dictionary<Location, Route[]>();
 
 		private readonly List<Transport> _transports = new List<Transport>();
 		private readonly Clock _clock;
@@ -30,9 +25,13 @@ namespace TransportTycoon
 		public Transportation()
 		{
 			_clock = new Clock(1);
-			_transports.Add(new Transport(0, new Vessel("Truck 1", "Truck"), Location.Factory, _clock));
-			_transports.Add(new Transport(1, new Vessel("Truck 2", "Truck"), Location.Factory, _clock));
-			_transports.Add(new Transport(2, new Vessel("Ship", "Ship"), Location.Port, _clock));
+
+			_routsMap.Add(_locations["A"], new Route[] { new Route(_locations["Factory"], _locations["Port"], 1), new Route(_locations["Port"], _locations["A"], 4) });
+			_routsMap.Add(_locations["B"], new Route[] { new Route(_locations["Factory"], _locations["B"], 5) });
+
+			_transports.Add(new Transport(0, new Vessel("Truck 1", "Truck"), _locations["Factory"], _clock));
+			_transports.Add(new Transport(1, new Vessel("Truck 2", "Truck"), _locations["Factory"], _clock));
+			_transports.Add(new Transport(2, new Vessel("Ship", "Ship"), _locations["Port"], _clock));
 		}
 
 		public int ElapsedTime => _clock.ElapsedTime;
@@ -43,7 +42,7 @@ namespace TransportTycoon
 		{
 			_events.Clear();
 			_cargoes = MakeCargoes(destinations.Select(c => c.ToString()));
-
+			_clock.Reset();
 			while (true)
 			{
 				ForAllTransportsDo(t => t.Process());
@@ -68,8 +67,8 @@ namespace TransportTycoon
 			var result = new List<Cargo>();
 			foreach (var destination in destinations)
 			{
-				var destinationLocation = Location.FromString(destination);
-				result.Add(new Cargo(result.Count, Location.Factory, _routsMap[destinationLocation]));
+				var destinationLocation = _locations[destination];
+				result.Add(new Cargo(result.Count, _locations["Factory"], _routsMap[destinationLocation]));
 			}
 			return result;
 		}

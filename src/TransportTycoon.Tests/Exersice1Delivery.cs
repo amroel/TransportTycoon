@@ -3,61 +3,61 @@ using Xunit;
 
 namespace TransportTycoon.Tests
 {
-	public class Delivery
+	public class Exersice1Delivery
 	{
 		private readonly Transportation _transportation = new Transportation();
 
 		[Fact]
-		public void DeliverToWarehouseA()
+		public void A()
 		{
 			_transportation.Start("A");
 			_transportation.ElapsedTime.Should().Be(5);
 		}
 
 		[Fact]
-		public void DeliverToWarehouseB()
+		public void B()
 		{
 			_transportation.Start("B");
 			_transportation.ElapsedTime.Should().Be(5);
 		}
 
 		[Fact]
-		private void DeliverToWarehouseAThenB()
+		private void AB()
 		{
 			_transportation.Start("AB");
 			_transportation.ElapsedTime.Should().Be(5);
 		}
 
 		[Fact]
-		private void DeliverToWarehouseBThenA()
+		private void BA()
 		{
 			_transportation.Start("BA");
 			_transportation.ElapsedTime.Should().Be(5);
 		}
 
 		[Fact]
-		private void DeliverTwiceToWarehouseB()
+		private void BB()
 		{
 			_transportation.Start("BB");
 			_transportation.ElapsedTime.Should().Be(5);
 		}
 
 		[Fact]
-		private void DeliverTwiceToWarehousA()
+		private void AA()
 		{
 			_transportation.Start("AA");
 			_transportation.ElapsedTime.Should().Be(13);
 		}
 
 		[Fact]
-		private void DeliverToAThenTwiceToWarehouseB()
+		private void ABB()
 		{
 			_transportation.Start("ABB");
 			_transportation.ElapsedTime.Should().Be(7);
 		}
 
 		[Fact]
-		private void ComplexScenario()
+		private void AABABBAB()
 		{
 			_transportation.Start("AABABBAB");
 			_transportation.ElapsedTime.Should().Be(29);
