@@ -8,12 +8,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_0"
+     "CARGO:Factory_B_0"
     ],
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 0,
@@ -22,12 +22,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_1"
+     "CARGO:Factory_B_1"
     ],
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 5,
@@ -36,7 +36,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_0"
+     "CARGO:Factory_B_0"
     ],
     "transport": "Truck:0"
    },
@@ -52,7 +52,7 @@
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
+   "name": "B-Factory"
   },
   {
    "ts": 5,
@@ -61,7 +61,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_1"
+     "CARGO:Factory_B_1"
     ],
     "transport": "Truck:1"
    },
@@ -77,7 +77,7 @@
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
+   "name": "B-Factory"
   }
  ]
 }

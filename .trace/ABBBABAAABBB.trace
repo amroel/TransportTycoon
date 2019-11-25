@@ -8,7 +8,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_0"
+     "CARGO:Factory_A_0"
     ],
     "transport": "Truck:0"
    },
@@ -22,12 +22,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_1"
+     "CARGO:Factory_B_1"
     ],
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 1,
@@ -36,7 +36,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_0"
+     "CARGO:Factory_A_0"
     ],
     "transport": "Truck:0"
    },
@@ -61,12 +61,13 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_0"
+     "CARGO:Factory_A_0"
     ],
     "transport": "Ship:2"
    },
-   "ph": "B",
-   "name": "Port-Warehouse A"
+   "ph": "X",
+   "dur": 1,
+   "name": "LOAD"
   },
   {
    "ts": 2,
@@ -86,12 +87,26 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_2"
+     "CARGO:Factory_B_2"
     ],
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
+  },
+  {
+   "ts": 2,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_0"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "B",
+   "name": "Port-A"
   },
   {
    "ts": 5,
@@ -100,7 +115,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_1"
+     "CARGO:Factory_B_1"
     ],
     "transport": "Truck:1"
    },
@@ -116,32 +131,7 @@
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
-  },
-  {
-   "ts": 5,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_0"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "E"
-  },
-  {
-   "ts": 5,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [],
-    "transport": "Ship:2"
-   },
-   "ph": "B",
-   "name": "Warehouse A-Port"
+   "name": "B-Factory"
   },
   {
    "ts": 7,
@@ -150,7 +140,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_2"
+     "CARGO:Factory_B_2"
     ],
     "transport": "Truck:0"
    },
@@ -166,7 +156,35 @@
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
+   "name": "B-Factory"
+  },
+  {
+   "ts": 8,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_0"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 8,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_0"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "X",
+   "dur": 1,
+   "name": "UNLOAD"
   },
   {
    "ts": 9,
@@ -177,7 +195,8 @@
     "cargo": [],
     "transport": "Ship:2"
    },
-   "ph": "E"
+   "ph": "B",
+   "name": "A-Port"
   },
   {
    "ts": 10,
@@ -197,12 +216,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_3"
+     "CARGO:Factory_B_3"
     ],
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 12,
@@ -222,7 +241,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_4"
+     "CARGO:Factory_A_4"
     ],
     "transport": "Truck:0"
    },
@@ -236,7 +255,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_4"
+     "CARGO:Factory_A_4"
     ],
     "transport": "Truck:0"
    },
@@ -253,20 +272,6 @@
    },
    "ph": "B",
    "name": "Port-Factory"
-  },
-  {
-   "ts": 13,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_4"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "B",
-   "name": "Port-Warehouse A"
   },
   {
    "ts": 14,
@@ -286,12 +291,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_5"
+     "CARGO:Factory_B_5"
     ],
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 15,
@@ -300,7 +305,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_3"
+     "CARGO:Factory_B_3"
     ],
     "transport": "Truck:1"
    },
@@ -316,23 +321,10 @@
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
+   "name": "B-Factory"
   },
   {
-   "ts": 17,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_4"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "E"
-  },
-  {
-   "ts": 17,
+   "ts": 15,
    "pid": "Ship:2",
    "tid": "Ship:2",
    "cat": "ddd",
@@ -340,8 +332,36 @@
     "cargo": [],
     "transport": "Ship:2"
    },
+   "ph": "E"
+  },
+  {
+   "ts": 15,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_4"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "X",
+   "dur": 1,
+   "name": "LOAD"
+  },
+  {
+   "ts": 16,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_4"
+    ],
+    "transport": "Ship:2"
+   },
    "ph": "B",
-   "name": "Warehouse A-Port"
+   "name": "Port-A"
   },
   {
    "ts": 19,
@@ -350,7 +370,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_5"
+     "CARGO:Factory_B_5"
     ],
     "transport": "Truck:0"
    },
@@ -366,7 +386,7 @@
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
+   "name": "B-Factory"
   },
   {
    "ts": 20,
@@ -386,7 +406,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_6"
+     "CARGO:Factory_A_6"
     ],
     "transport": "Truck:1"
    },
@@ -400,7 +420,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_6"
+     "CARGO:Factory_A_6"
     ],
     "transport": "Truck:1"
    },
@@ -417,31 +437,6 @@
    },
    "ph": "B",
    "name": "Port-Factory"
-  },
-  {
-   "ts": 21,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [],
-    "transport": "Ship:2"
-   },
-   "ph": "E"
-  },
-  {
-   "ts": 21,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_6"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "B",
-   "name": "Port-Warehouse A"
   },
   {
    "ts": 22,
@@ -461,12 +456,40 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_7"
+     "CARGO:Factory_A_7"
     ],
     "transport": "Truck:1"
    },
    "ph": "B",
    "name": "Factory-Port"
+  },
+  {
+   "ts": 22,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_4"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 22,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_4"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "X",
+   "dur": 1,
+   "name": "UNLOAD"
   },
   {
    "ts": 23,
@@ -475,7 +498,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_7"
+     "CARGO:Factory_A_7"
     ],
     "transport": "Truck:1"
    },
@@ -494,6 +517,18 @@
    "name": "Port-Factory"
   },
   {
+   "ts": 23,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Ship:2"
+   },
+   "ph": "B",
+   "name": "A-Port"
+  },
+  {
    "ts": 24,
    "pid": "Truck:0",
    "tid": "Truck:0",
@@ -511,7 +546,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_8"
+     "CARGO:Factory_A_8"
     ],
     "transport": "Truck:0"
    },
@@ -536,12 +571,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_9"
+     "CARGO:Factory_B_9"
     ],
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 25,
@@ -550,7 +585,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_8"
+     "CARGO:Factory_A_8"
     ],
     "transport": "Truck:0"
    },
@@ -567,31 +602,6 @@
    },
    "ph": "B",
    "name": "Port-Factory"
-  },
-  {
-   "ts": 25,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_6"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "E"
-  },
-  {
-   "ts": 25,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [],
-    "transport": "Ship:2"
-   },
-   "ph": "B",
-   "name": "Warehouse A-Port"
   },
   {
    "ts": 26,
@@ -611,12 +621,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_10"
+     "CARGO:Factory_B_10"
     ],
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 29,
@@ -625,7 +635,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_9"
+     "CARGO:Factory_B_9"
     ],
     "transport": "Truck:1"
    },
@@ -641,7 +651,7 @@
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
+   "name": "B-Factory"
   },
   {
    "ts": 29,
@@ -661,12 +671,31 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse A_7"
+     "CARGO:Factory_A_6",
+     "CARGO:Factory_A_7",
+     "CARGO:Factory_A_8"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "X",
+   "dur": 1,
+   "name": "LOAD"
+  },
+  {
+   "ts": 30,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_6",
+     "CARGO:Factory_A_7",
+     "CARGO:Factory_A_8"
     ],
     "transport": "Ship:2"
    },
    "ph": "B",
-   "name": "Port-Warehouse A"
+   "name": "Port-A"
   },
   {
    "ts": 31,
@@ -675,7 +704,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_10"
+     "CARGO:Factory_B_10"
     ],
     "transport": "Truck:0"
    },
@@ -691,32 +720,7 @@
     "transport": "Truck:0"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
-  },
-  {
-   "ts": 33,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_7"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "E"
-  },
-  {
-   "ts": 33,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [],
-    "transport": "Ship:2"
-   },
-   "ph": "B",
-   "name": "Warehouse A-Port"
+   "name": "B-Factory"
   },
   {
    "ts": 34,
@@ -736,12 +740,12 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_11"
+     "CARGO:Factory_B_11"
     ],
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Factory-Warehouse B"
+   "name": "Factory-B"
   },
   {
    "ts": 36,
@@ -755,6 +759,38 @@
    "ph": "E"
   },
   {
+   "ts": 36,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_6",
+     "CARGO:Factory_A_7",
+     "CARGO:Factory_A_8"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 36,
+   "pid": "Ship:2",
+   "tid": "Ship:2",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_A_6",
+     "CARGO:Factory_A_7",
+     "CARGO:Factory_A_8"
+    ],
+    "transport": "Ship:2"
+   },
+   "ph": "X",
+   "dur": 1,
+   "name": "UNLOAD"
+  },
+  {
    "ts": 37,
    "pid": "Ship:2",
    "tid": "Ship:2",
@@ -763,21 +799,8 @@
     "cargo": [],
     "transport": "Ship:2"
    },
-   "ph": "E"
-  },
-  {
-   "ts": 37,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_8"
-    ],
-    "transport": "Ship:2"
-   },
    "ph": "B",
-   "name": "Port-Warehouse A"
+   "name": "A-Port"
   },
   {
    "ts": 39,
@@ -786,7 +809,7 @@
    "cat": "ddd",
    "args": {
     "cargo": [
-     "CARGO:Factory_Warehouse B_11"
+     "CARGO:Factory_B_11"
     ],
     "transport": "Truck:1"
    },
@@ -802,32 +825,7 @@
     "transport": "Truck:1"
    },
    "ph": "B",
-   "name": "Warehouse B-Factory"
-  },
-  {
-   "ts": 41,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [
-     "CARGO:Factory_Warehouse A_8"
-    ],
-    "transport": "Ship:2"
-   },
-   "ph": "E"
-  },
-  {
-   "ts": 41,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
-   "cat": "ddd",
-   "args": {
-    "cargo": [],
-    "transport": "Ship:2"
-   },
-   "ph": "B",
-   "name": "Warehouse A-Port"
+   "name": "B-Factory"
   }
  ]
 }

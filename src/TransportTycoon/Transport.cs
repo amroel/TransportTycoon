@@ -30,21 +30,38 @@ namespace TransportTycoon
 
 		protected internal void LoadCargo()
 		{
-			if (!_vessel.CanLoad(_loadedCargoes.Count))
+			var countBefroe = _loadedCargoes.Count;
+			var firstCargo = _loadedCargoes.FirstOrDefault();
+			if (firstCargo == null)
+			{
+				firstCargo = _currentLocation.LoadCargo();
+				if (firstCargo == null)
+					return;
+				_loadedCargoes.Add(firstCargo);
+				_loadUnloadEta = _vessel.CalculateLoadUnloadEta(_clock.ElapsedTime);
+			}
+			while (_vessel.CanLoad(_loadedCargoes.Count))
+			{
+				var cargoToLoad = _currentLocation.LoadCargoHeadingTo(firstCargo.NextRoute().ToLocation);
+				if (cargoToLoad != null)
+					_loadedCargoes.Add(cargoToLoad);
+				else
+					break;
+			}
+			if (_loadedCargoes.Count == countBefroe)
 				return;
 
-			Cargo cargoToLoad;
-			if (_currentRoute != null)
-				cargoToLoad = _currentLocation.LoadCargoHeadingTo(_currentRoute.ToLocation);
-			else
-				cargoToLoad = _currentLocation.LoadCargo();
-
-			if (cargoToLoad != null)
+			_events.Add(new TransportEvent
 			{
-				_loadedCargoes.Add(cargoToLoad);
-				if (_loadUnloadEta == default)
-					_loadUnloadEta = _vessel.CalculateLoadUnloadEta(_clock.ElapsedTime);
-			}
+				Event = "LOAD",
+				Time = _clock.ElapsedTime,
+				TransportId = Id,
+				Kind = _vessel.Kind,
+				Location = _currentRoute?.FromLocation?.Name,
+				Destination = _currentRoute?.ToLocation?.Name,
+				Duration = _vessel.CalculateLoadUnloadEta(0),
+				Cargo = _loadedCargoes.Select(c => CargoTravelInfo.FromCargo(c)).ToArray()
+			});
 		}
 
 		protected internal bool CanDepartToDestination() => _loadedCargoes.Any() && _loadUnloadEta == _clock.ElapsedTime;
@@ -91,6 +108,19 @@ namespace TransportTycoon
 		protected internal void StartUnloading()
 		{
 			_loadUnloadEta = _vessel.CalculateLoadUnloadEta(_clock.ElapsedTime);
+			_events.Add(new TransportEvent
+			{
+				Event = "UNLOAD",
+				Time = _clock.ElapsedTime,
+				TransportId = Id,
+				Kind = _vessel.Kind,
+				Location = _currentRoute?.FromLocation?.Name,
+				Destination = _currentRoute?.ToLocation?.Name,
+				Duration = _vessel.CalculateLoadUnloadEta(0),
+				Cargo = _loadedCargoes.Any() ?
+					_loadedCargoes.Select(c => CargoTravelInfo.FromCargo(c)).ToArray() :
+					null
+			});
 		}
 
 		protected internal bool CanFinishUnloading() => _loadUnloadEta == _clock.ElapsedTime;

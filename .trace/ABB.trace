@@ -82,6 +82,20 @@
   },
   {
    "ts": 2,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_B_2"
+    ],
+    "transport": "Truck:0"
+   },
+   "ph": "B",
+   "name": "Factory-B"
+  },
+  {
+   "ts": 2,
    "pid": "Ship:2",
    "tid": "Ship:2",
    "cat": "ddd",
@@ -115,6 +129,31 @@
    "args": {
     "cargo": [],
     "transport": "Truck:1"
+   },
+   "ph": "B",
+   "name": "B-Factory"
+  },
+  {
+   "ts": 7,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [
+     "CARGO:Factory_B_2"
+    ],
+    "transport": "Truck:0"
+   },
+   "ph": "E"
+  },
+  {
+   "ts": 7,
+   "pid": "Truck:0",
+   "tid": "Truck:0",
+   "cat": "ddd",
+   "args": {
+    "cargo": [],
+    "transport": "Truck:0"
    },
    "ph": "B",
    "name": "B-Factory"
