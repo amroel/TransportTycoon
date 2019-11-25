@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using TransportTycoon.Infrastructure;
@@ -9,7 +10,19 @@ namespace TransportTycoon
 	{
 		static void Main(string[] args)
 		{
-			var transportation = new Transportation();
+			var truckSpec = new LoadingSpecification(VesselKind.Truck, capacity: 1, loadUnloadDuration: 0);
+			var shipSpec = new LoadingSpecification(VesselKind.Ship, 4, 1);
+			var config = new TransportationConfig
+			{
+				Routes = new Dictionary<string, (string start, string finish, int distance)[]>
+				{
+					{ "A", new (string, string, int)[] { ("Factory", "Port", 1), ("Port", "A", 6) } },
+					{ "B", new (string, string, int)[] { ("Factory", "B", 5) } }
+				},
+				LoadingSpecs = new LoadingSpecification[] { truckSpec, shipSpec }
+			};
+
+			var transportation = new Transportation(config);
 			var cargoes = args[0];
 			transportation.Start(args[0]);
 			Console.WriteLine($"Total time took to finish delivery: {transportation.ElapsedTime}");

@@ -14,7 +14,7 @@ namespace TransportTycoon.Tests
 				Event = "DEPART",
 				Time = 0,
 				TransportId = 0,
-				Kind = "Truck",
+				Kind = VesselKind.Truck,
 				Location = "Factory",
 				Destination = "Port"
 			};
@@ -38,7 +38,7 @@ namespace TransportTycoon.Tests
 				Event = "DEPART",
 				Time = 0,
 				TransportId = 0,
-				Kind = "Truck",
+				Kind = VesselKind.Truck,
 				Location = "Factory",
 				Destination = "Port",
 				Cargo = new CargoTravelInfo[] { CargoTravelInfo.FromCargo(cargo) }

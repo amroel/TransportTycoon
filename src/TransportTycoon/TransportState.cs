@@ -8,20 +8,21 @@
 
 		public string Description { get; private set; }
 
-		public static readonly TransportState Loading = new VesselStateLoading();
-		public static readonly TransportState OnTheRoad = new VesselStateOnTheRoad();
-		public static readonly TransportState Returning = new VesselStateReturning();
+		public static readonly TransportState Loading = new TransportStateLoading();
+		public static readonly TransportState OnTheRoad = new TransportStateOnTheRoad();
+		public static readonly TransportState Unloading = new TransportStateUnloading();
+		public static readonly TransportState Returning = new TransportStateReturning();
 
-		private class VesselStateLoading : TransportState
+		private class TransportStateLoading : TransportState
 		{
-			public VesselStateLoading() : base("Loading")
+			public TransportStateLoading() : base("Loading")
 			{
 			}
 
 			public override TransportState Process(Transport transport)
 			{
 				transport.LoadCargo();
-				if (transport.HasLoadedCargo())
+				if (transport.CanDepartToDestination())
 				{
 					transport.DepartToDestination();
 					return OnTheRoad;
@@ -30,9 +31,9 @@
 			}
 		}
 
-		private class VesselStateOnTheRoad : TransportState
+		private class TransportStateOnTheRoad : TransportState
 		{
-			public VesselStateOnTheRoad() : base("On the road")
+			public TransportStateOnTheRoad() : base("On the road")
 			{
 			}
 
@@ -41,7 +42,31 @@
 				if (transport.IsAtDestination())
 				{
 					transport.ArriveAtRouteDestination();
-					transport.DropCargoAtRouteDestination();
+					transport.StartUnloading();
+					if (transport.CanFinishUnloading())
+					{
+						transport.FinishUnloading();
+						transport.ReturnToOrigin();
+						return Returning;
+					}
+					else
+						return Unloading;
+				}
+				return this;
+			}
+		}
+
+		private class TransportStateUnloading : TransportState
+		{
+			public TransportStateUnloading() : base("Unloading")
+			{
+			}
+
+			public override TransportState Process(Transport transport)
+			{
+				if (transport.CanFinishUnloading())
+				{
+					transport.FinishUnloading();
 					transport.ReturnToOrigin();
 					return Returning;
 				}
@@ -49,9 +74,9 @@
 			}
 		}
 
-		private class VesselStateReturning : TransportState
+		private class TransportStateReturning : TransportState
 		{
-			public VesselStateReturning() : base("Returning")
+			public TransportStateReturning() : base("Returning")
 			{
 			}
 

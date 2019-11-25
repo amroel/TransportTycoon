@@ -22,16 +22,23 @@ namespace TransportTycoon
 		private IEnumerable<Cargo> _cargoes;
 		private readonly List<TransportEvent> _events = new List<TransportEvent>();
 
-		public Transportation()
+
+		public Transportation(TransportationConfig config = default)
 		{
+			if (config == default)
+				config = TransportationConfig.MakeDefault();
+
+			MakeRoutes(config);
+			var truckSpec = config.LoadingSpecs.SingleOrDefault(spec => spec.TypeOfVessel == VesselKind.Truck) ??
+				new LoadingSpecification(VesselKind.Truck, capacity: 1, loadUnloadDuration: 0);
+			var shipSpec = config.LoadingSpecs.SingleOrDefault(spec => spec.TypeOfVessel == VesselKind.Ship) ??
+				new LoadingSpecification(VesselKind.Ship, capacity: 1, loadUnloadDuration: 0);
+
 			_clock = new Clock(1);
 
-			_routsMap.Add(_locations["A"], new Route[] { new Route(_locations["Factory"], _locations["Port"], 1), new Route(_locations["Port"], _locations["A"], 4) });
-			_routsMap.Add(_locations["B"], new Route[] { new Route(_locations["Factory"], _locations["B"], 5) });
-
-			_transports.Add(new Transport(0, new Vessel("Truck 1", "Truck"), _locations["Factory"], _clock));
-			_transports.Add(new Transport(1, new Vessel("Truck 2", "Truck"), _locations["Factory"], _clock));
-			_transports.Add(new Transport(2, new Vessel("Ship", "Ship"), _locations["Port"], _clock));
+			_transports.Add(new Transport(0, new Vessel("Truck 1", truckSpec), _locations["Factory"], _clock));
+			_transports.Add(new Transport(1, new Vessel("Truck 2", truckSpec), _locations["Factory"], _clock));
+			_transports.Add(new Transport(2, new Vessel("Ship", shipSpec), _locations["Port"], _clock));
 		}
 
 		public int ElapsedTime => _clock.ElapsedTime;
@@ -42,13 +49,28 @@ namespace TransportTycoon
 		{
 			_events.Clear();
 			_cargoes = MakeCargoes(destinations.Select(c => c.ToString()));
-			_clock.Reset();
+
 			while (true)
 			{
 				ForAllTransportsDo(t => t.Process());
 				if (!StillDelivering())
 					break;
 				_clock.Tick();
+			}
+		}
+
+		private void MakeRoutes(TransportationConfig config)
+		{
+			var configRoutes = config.Routes;
+			if (configRoutes == null || !configRoutes.Any())
+				configRoutes = TransportationConfig.MakeDefault().Routes;
+				
+			foreach (var route in configRoutes)
+			{
+				var dest = _locations[route.Key];
+				_routsMap[dest] = route.Value
+					.Select(item => new Route(_locations[item.start], _locations[item.finish], item.distance))
+					.ToArray();
 			}
 		}
 

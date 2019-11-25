@@ -13,6 +13,7 @@ namespace TransportTycoon
 		private TransportState _state = TransportState.Loading;
 		private Route _currentRoute;
 		private int _eta;
+		private int _loadUnloadEta;
 		private readonly List<TransportEvent> _events = new List<TransportEvent>();
 
 		public Transport(long id, Vessel vessel, Location initialLocation, Clock clock)
@@ -25,18 +26,28 @@ namespace TransportTycoon
 
 		public void Process() => _state = _state.Process(this);
 
-		public bool HasLoadedCargo() => _loadedCargoes.Any();
-
 		public void ClearEvents() => _events.Clear();
 
 		protected internal void LoadCargo()
 		{
-			var cargoToLoad = _currentLocation.LoadCargo();
+			if (!_vessel.CanLoad(_loadedCargoes.Count))
+				return;
+
+			Cargo cargoToLoad;
+			if (_currentRoute != null)
+				cargoToLoad = _currentLocation.LoadCargoHeadingTo(_currentRoute.ToLocation);
+			else
+				cargoToLoad = _currentLocation.LoadCargo();
+
 			if (cargoToLoad != null)
 			{
 				_loadedCargoes.Add(cargoToLoad);
+				if (_loadUnloadEta == default)
+					_loadUnloadEta = _vessel.CalculateLoadUnloadEta(_clock.ElapsedTime);
 			}
 		}
+
+		protected internal bool CanDepartToDestination() => _loadedCargoes.Any() && _loadUnloadEta == _clock.ElapsedTime;
 
 		protected internal void DepartToDestination()
 		{
@@ -51,8 +62,8 @@ namespace TransportTycoon
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.FromLocation?.Name,
 				Destination = _currentRoute?.ToLocation?.Name,
-				Cargo = _loadedCargoes.Any() ? 
-					_loadedCargoes.Select(c => CargoTravelInfo.FromCargo(c)).ToArray() : 
+				Cargo = _loadedCargoes.Any() ?
+					_loadedCargoes.Select(c => CargoTravelInfo.FromCargo(c)).ToArray() :
 					null
 			});
 		}
@@ -77,7 +88,14 @@ namespace TransportTycoon
 			});
 		}
 
-		protected internal void DropCargoAtRouteDestination()
+		protected internal void StartUnloading()
+		{
+			_loadUnloadEta = _vessel.CalculateLoadUnloadEta(_clock.ElapsedTime);
+		}
+
+		protected internal bool CanFinishUnloading() => _loadUnloadEta == _clock.ElapsedTime;
+
+		protected internal void FinishUnloading()
 		{
 			_loadedCargoes.ForEach(cargo => _currentLocation.UnloadCargo(cargo));
 			_loadedCargoes.Clear();
@@ -118,6 +136,7 @@ namespace TransportTycoon
 			_currentLocation = _currentRoute.FromLocation;
 			_currentRoute = null;
 			_eta = 0;
+			_loadUnloadEta = 0;
 		}
 
 		public long Id { get; private set; }
