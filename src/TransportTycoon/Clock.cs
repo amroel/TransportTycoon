@@ -1,14 +1,13 @@
-﻿using System;
-
-namespace TransportTycoon
+﻿namespace TransportTycoon
 {
 	public class Clock
 	{
-		public Clock(TimeSpan tickInterval) => TickInterval = tickInterval;
+		private readonly int _tickInterval;
 
-		public void Tick() => ElapsedTime += TickInterval;
+		public Clock(int tickInterval) => _tickInterval = tickInterval;
 
-		public TimeSpan TickInterval { get; }
-		public TimeSpan ElapsedTime { get; private set; }
+		public void Tick() => ElapsedTime += _tickInterval;
+
+		public int ElapsedTime { get; private set; }
 	}
 }

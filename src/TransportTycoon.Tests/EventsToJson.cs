@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using FluentAssertions.Extensions;
 using TransportTycoon.Infrastructure;
 using Xunit;
 
@@ -30,7 +29,7 @@ namespace TransportTycoon.Tests
 		[Fact]
 		private void ToJson_WithOneCargo()
 		{
-			var cargo = new Cargo(0, Location.Factory, new Route(Location.Factory, Location.Port, 1.Hours()), new Route(Location.Port, Location.WarehouseA, 4.Hours()));
+			var cargo = new Cargo(0, Location.Factory, new Route(Location.Factory, Location.Port, 1), new Route(Location.Port, Location.WarehouseA, 4));
 			var evt = new TransportEvent
 			{
 				Event = "DEPART",

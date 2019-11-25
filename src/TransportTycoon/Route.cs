@@ -1,18 +1,16 @@
-﻿using System;
-
-namespace TransportTycoon
+﻿namespace TransportTycoon
 {
 	public class Route
 	{
-		public Route(Location from, Location to, TimeSpan duration)
+		public Route(Location from, Location to, int distance)
 		{
 			FromLocation = from;
 			ToLocation = to;
-			Distance = duration;
+			Distance = distance;
 		}
 
 		public Location FromLocation { get; }
 		public Location ToLocation { get; }
-		public TimeSpan Distance { get; }
+		public int Distance { get; }
 	}
 }

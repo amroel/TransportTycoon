@@ -42,14 +42,14 @@
   },
   {
    "ts": 1,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
+   "pid": "Ship:0",
+   "tid": "Ship:0",
    "cat": "ddd",
    "args": {
     "cargo": [
      "CARGO:Factory_Warehouse A_0"
     ],
-    "transport": "Ship:2"
+    "transport": "Ship:0"
    },
    "ph": "B",
    "name": "Port-Warehouse A"
@@ -67,25 +67,25 @@
   },
   {
    "ts": 5,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
+   "pid": "Ship:0",
+   "tid": "Ship:0",
    "cat": "ddd",
    "args": {
     "cargo": [
      "CARGO:Factory_Warehouse A_0"
     ],
-    "transport": "Ship:2"
+    "transport": "Ship:0"
    },
    "ph": "E"
   },
   {
    "ts": 5,
-   "pid": "Ship:2",
-   "tid": "Ship:2",
+   "pid": "Ship:0",
+   "tid": "Ship:0",
    "cat": "ddd",
    "args": {
     "cargo": [],
-    "transport": "Ship:2"
+    "transport": "Ship:0"
    },
    "ph": "B",
    "name": "Warehouse A-Port"

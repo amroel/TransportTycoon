@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TransportTycoon
@@ -13,7 +12,7 @@ namespace TransportTycoon
 
 		private TransportState _state = TransportState.Loading;
 		private Route _currentRoute;
-		private TimeSpan _eta;
+		private int _eta;
 		private readonly List<TransportEvent> _events = new List<TransportEvent>();
 
 		public Transport(long id, Vessel vessel, Location initialLocation, Clock clock)
@@ -47,7 +46,7 @@ namespace TransportTycoon
 			_events.Add(new TransportEvent
 			{
 				Event = "DEPART",
-				Time = _clock.ElapsedTime.Hours,
+				Time = _clock.ElapsedTime,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.FromLocation?.Name,
@@ -63,11 +62,11 @@ namespace TransportTycoon
 		protected internal void ArriveAtRouteDestination()
 		{
 			_currentLocation = _currentRoute.ToLocation;
-			_eta = TimeSpan.Zero;
+			_eta = 0;
 			_events.Add(new TransportEvent
 			{
 				Event = "ARRIVE",
-				Time = _clock.ElapsedTime.Hours,
+				Time = _clock.ElapsedTime,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.FromLocation?.Name,
@@ -91,7 +90,7 @@ namespace TransportTycoon
 			_events.Add(new TransportEvent
 			{
 				Event = "DEPART",
-				Time = _clock.ElapsedTime.Hours,
+				Time = _clock.ElapsedTime,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.ToLocation?.Name,
@@ -107,7 +106,7 @@ namespace TransportTycoon
 			_events.Add(new TransportEvent
 			{
 				Event = "ARRIVE",
-				Time = _clock.ElapsedTime.Hours,
+				Time = _clock.ElapsedTime,
 				TransportId = Id,
 				Kind = _vessel.Kind,
 				Location = _currentRoute?.ToLocation?.Name,
@@ -118,7 +117,7 @@ namespace TransportTycoon
 			});
 			_currentLocation = _currentRoute.FromLocation;
 			_currentRoute = null;
-			_eta = TimeSpan.Zero;
+			_eta = 0;
 		}
 
 		public long Id { get; private set; }

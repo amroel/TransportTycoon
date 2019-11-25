@@ -11,13 +11,13 @@ namespace TransportTycoon
 		{
 			{ Location.WarehouseA, new Route[]
 				{
-					new Route(Location.Factory, Location.Port, TimeSpan.FromHours(1)),
-					new Route(Location.Port, Location.WarehouseA, TimeSpan.FromHours(4))
+					new Route(Location.Factory, Location.Port, 1),
+					new Route(Location.Port, Location.WarehouseA, 4)
 				}
 			},
 			{ Location.WarehouseB, new Route[]
 				{
-					new Route(Location.Factory, Location.WarehouseB, TimeSpan.FromHours(5))
+					new Route(Location.Factory, Location.WarehouseB, 5)
 				}
 			}
 		};
@@ -29,13 +29,13 @@ namespace TransportTycoon
 
 		public Transportation()
 		{
-			_clock = new Clock(TimeSpan.FromHours(1));
+			_clock = new Clock(1);
 			_transports.Add(new Transport(0, new Vessel("Truck 1", "Truck"), Location.Factory, _clock));
 			_transports.Add(new Transport(1, new Vessel("Truck 2", "Truck"), Location.Factory, _clock));
-			_transports.Add(new Transport(0, new Vessel("Ship", "Ship"), Location.Port, _clock));
+			_transports.Add(new Transport(2, new Vessel("Ship", "Ship"), Location.Port, _clock));
 		}
 
-		public TimeSpan ElapsedTime => _clock.ElapsedTime;
+		public int ElapsedTime => _clock.ElapsedTime;
 
 		public IEnumerable<TransportEvent> Events => _events.AsReadOnly();
 
